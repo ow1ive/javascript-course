@@ -1,93 +1,112 @@
-// JavaScript Fundamentals - Hour 1
-// My first JavaScript code!
+////////////////////////////////////
+// Basic Operators - Math operators
+console.log("=== MATH OPERATORS ===");
 
-let js = "amazing";
-console.log(40 + 8 + 23 - 10);
+const now = 2037;
+const ageJonas = now - 1991;
+const ageSarah = now - 2018;
+console.log(ageJonas, ageSarah); // 46, 19
 
-console.log("=== VARIABLES ===");
+console.log(ageJonas * 2, ageJonas / 10, 2 ** 3);
+// 2 ** 3 means 2 to the power of 3 = 2 * 2 * 2 = 8
 
-let firstName = "Jonas";
-console.log(firstName);
+console.log("Math operations:");
+console.log("Addition:", 10 + 5); // 15
+console.log("Subtraction:", 20 - 8); // 12
+console.log("Multiplication:", 4 * 7); // 28
+console.log("Division:", 15 / 3); // 5
+console.log("Exponentiation:", 2 ** 3); // 8
 
-let age = 30;
-age = 31; // We can change let variables
-console.log(age);
+// Math with strings!
+const firstName = "Jonas";
+const lastName = "Schmedtmann";
+console.log(firstName + " " + lastName); // "Jonas Schmedtmann"
 
-const birthYear = 1991;
-console.log(birthYear);
+console.log("Hello " + "World" + "!"); // "HelloWorld!"
+console.log("I am " + 25 + " years old"); // "I am 25 years old"
 
-// birthYear = 1990; // This would cause an error!
+////////////////////////////////////
+// Assignment operators
+console.log("=== ASSIGNMENT OPERATORS ===");
 
-const PI = 3.1415;
-console.log(PI);
+let x = 10 + 5; // 15
+console.log("x starts as:", x);
 
-var job = "programmer";
-job = "teacher";
-console.log(job);
+x += 10; // Same as: x = x + 10 = 25
+console.log("After x += 10:", x);
 
-console.log("=== DATA TYPES ===");
+x *= 4; // Same as: x = x * 4 = 100
+console.log("After x *= 4:", x);
 
-// Number (integers and decimals)
-let age2 = 23;
-console.log(age2);
-console.log(typeof age2); // "number"
+x /= 2; // Same as: x = x / 2 = 50
+console.log("After x /= 2:", x);
 
-// String (text in quotes)
-let firstName2 = "Jonas";
-console.log(firstName2);
-console.log(typeof firstName2); // "string"
+x++; // Same as: x = x + 1
+console.log("After x++:", x); // 51
 
-// Boolean (true or false)
-let javascriptIsFun = true;
-console.log(javascriptIsFun);
-console.log(typeof javascriptIsFun); // "boolean"
+x--; // Same as: x = x - 1
+x--; // Again: x = x - 1
+console.log("After x-- twice:", x); // 49
 
-// Undefined (no value assigned yet)
-let year;
-console.log(year); // undefined
-console.log(typeof year); // "undefined"
+//Exercise: Score Calculator
+var score = 100;
+score += 50;
+score *=2;
+score -= 25;
+score ++;
+score ++;
+console.log("Final score is:", score);
 
-// Start as a number
-let dynamicVariable = 23;
-console.log(dynamicVariable, typeof dynamicVariable); // 23, "number"
+////////////////////////////////////
+// Comparison operators
+console.log("=== COMPARISON OPERATORS ===");
 
-// Change to a string
-dynamicVariable = "Now I'm a string!";
-console.log(dynamicVariable, typeof dynamicVariable); // "Now I'm a string!", "string"
+console.log("Age comparison:");
+console.log(ageJonas > ageSarah); // true (46 > 19)
+console.log(ageSarah >= 18); // true (19 >= 18)
+console.log(ageJonas < 30); // false (46 < 30)
 
-// Change to a boolean
-dynamicVariable = true;
-console.log(dynamicVariable, typeof dynamicVariable); // true, "boolean"
+console.log("Number comparisons:");
+console.log(25 > 20); // true
+console.log(15 < 10); // false
+console.log(18 >= 18); // true
+console.log(16 <= 15); // false
 
-console.log("=== PRACTICE  EXERCISES ===");
-//Exercise 1: Personal Info Variables
-const firstName3 = "Olive";
-let age3 = 20;
-const favoriteNumber = 14;
-let likesJavaScript = true;
+const isFullAge = ageSarah >= 18;
+console.log("Sarah is adult:", isFullAge); // true
 
-console.log(firstName3, typeof firstName3);
-console.log(age3, typeof age3);
-console.log(favoriteNumber, typeof favoriteNumber);
-console.log(likesJavaScript, typeof likesJavaScript);
+const isJonasOlder = ageJonas > ageSarah;
+console.log("Jonas is older:", isJonasOlder); // true
 
-//Exercise 2: Variable Reassignment
+console.log("Complex comparison:");
+console.log(now - 1991 > now - 2018); // Same as: ageJonas > ageSarah
 
-let score = 100;
-console.log(score);
-score = 150;
-console.log(score);
+// Exercise: Age check
+const myAge = 20;
 
-const finalScore = 100;
-console.log(finalScore);
-// finalScore = 150; // This would cause an error!
-//let can be reassigned, but const cannot
+console.log("Am I at least 18?", myAge >= 18); // true
 
-///Exercise 3: Data Type Detective
-// Use typeof to check the data type of these values:
-console.log(typeof 42);        // number
-console.log(typeof "Hello");   // string
-console.log(typeof true);      // boolean
-console.log(typeof undefined); // undefined
+console.log("Is 100 greater than 99?", 100 > 99); // true
 
+const isAdult = myAge >= 18;
+console.log("Comparison Result:", isAdult); // true
 
+////////////////////////////////////
+// Coding Challenge #1 - BMI Calculator
+
+// Test Data 1
+const massMark = 78;
+const heightMark = 1.69;
+const massJohn = 92;
+const heightJohn = 1.95;
+
+// Your code here:
+// 1. Calculate BMIs
+const bmiMark = massMark / (heightMark ** 2);
+const bmiJohn = massJohn / (heightJohn ** 2);
+// 2. Create markHigherBMI variable
+const markHigherBMI = bmiMark > bmiJohn;
+// 3. Log results to console
+console.log("Mark's BMI:", bmiMark);
+console.log("John's BMI:", bmiJohn);
+console.log("Does Mark have a higher BMI than John?", markHigherBMI);
