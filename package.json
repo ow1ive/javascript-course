@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  },
+  "name": "javascript-course",
+  "version": "1.0.0",
+  "description": "Welcome to your complete JavaScript learning journey! This repository contains everything you need to master JavaScript fundamentals and build real applications.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ow1ive/javascript-course.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ow1ive/javascript-course/issues"
+  },
+  "homepage": "https://github.com/ow1ive/javascript-course#readme"
+}
