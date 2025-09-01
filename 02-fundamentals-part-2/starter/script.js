@@ -1,62 +1,100 @@
-// JavaScript Fundamentals Part 2 - Hour 3
+// JavaScript Fundamentals Part 2 - Hour 4
+//Final Project: Interactive Score Tracker
 
-// Coding Challenge #3 - User Profile System
-const user = {
-  firstName: "Sarah",
-  lastName: "Johnson",
-  birthYear: 1995,
-  location: "New York",
-  interests: ["photography", "travel", "coding"],
-  friends: [
-    { name: "Michael", status: "active" },
-    { name: "Emma", status: "inactive" },
-    { name: "David", status: "active" },
-  ],
-  isActive: true,
+// Game state object
+const gameState = {
+  scores: [0, 0], // Player 1 and Player 2 scores
+  targetScore: 5,
+  gameActive: true,
 
-  // Calculate age method
-  calcAge: function () {
-    const currentYear = new Date().getFullYear();
-    this.age = currentYear - this.birthYear;
-    return this.age;
+  // Update score display
+  updateDisplay: function () {
+    document.getElementById('score-1').textContent = this.scores[0];
+    document.getElementById('score-2').textContent = this.scores[1];
+    document.querySelector('.target').textContent = this.targetScore;
   },
 
-  // Add friend method
-  addFriend: function (name, status = "active") {
-    this.friends.push({ name, status });
-    return this.friends.length;
+  // Add point for a player
+  addPoint: function (playerIndex) {
+    if (!this.gameActive) return;
+    this.scores[playerIndex]++;
+    this.updateDisplay();
+    this.checkWinner();
   },
 
-  // Get active friends count
-  getActiveFriends: function () {
-    return this.friends.filter(friend => friend.status === "active").length;
+  // Check if someone won
+  checkWinner: function () {
+    if (this.scores[0] >= this.targetScore) {
+      this.showWinner(0);
+    } else if (this.scores[1] >= this.targetScore) {
+      this.showWinner(1);
+    }
   },
 
-  // Toggle active status
-  toggleStatus: function () {
-    this.isActive = !this.isActive;
-    return this.isActive;
+  // Show winner styling and message
+  showWinner: function (playerIndex) {
+    this.gameActive = false;
+
+    const players = document.querySelectorAll('.player');
+    players.forEach((player, index) => {
+      player.classList.remove('winner', 'loser');
+      if (index === playerIndex) player.classList.add('winner');
+      else player.classList.add('loser');
+    });
+
+    const winnerText = document.querySelector('.winner');
+    winnerText.classList.remove('hidden');
+    winnerText.querySelector('.winner-name').textContent = `Player ${playerIndex + 1}`;
   },
 
-  // Generate profile summary
-  getSummary: function () {
-    this.calcAge(); // Ensure age is calculated
-    const statusText = this.isActive ? "Active" : "Inactive";
-    return `
-Name: ${this.firstName} ${this.lastName}
-Age: ${this.age}
-Location: ${this.location}
-Status: ${statusText}
-Interests: ${this.interests.join(", ")}
-Total Friends: ${this.friends.length}
-Active Friends: ${this.getActiveFriends()}
-    `.trim();
+  // Reset game
+  resetGame: function () {
+    this.scores = [0, 0];
+    this.gameActive = true;
+
+    document.querySelectorAll('.player').forEach(player => {
+      player.classList.remove('winner', 'loser');
+    });
+
+    document.querySelector('.winner').classList.add('hidden');
+
+    this.updateDisplay();
   },
+
+  // Update target score
+  updateTargetScore: function (newScore) {
+    this.targetScore = newScore;
+    this.updateDisplay();
+  }
 };
 
-// Test your user profile system
-console.log(user.getSummary());
-user.addFriend("Alex", "active");
-user.toggleStatus();
-console.log(`\nAfter updates:`);
-console.log(user.getSummary());
+// === Event Listeners ===
+
+// Add points buttons
+document.querySelectorAll('.btn-add').forEach(button => {
+  button.addEventListener('click', function () {
+    const player = parseInt(this.dataset.player) - 1;
+    gameState.addPoint(player);
+  });
+});
+
+// Reset button
+document.getElementById('btn-reset').addEventListener('click', () => {
+  gameState.resetGame();
+});
+
+// Target score input
+document.getElementById('winning-score').addEventListener('change', function () {
+  const newScore = parseInt(this.value);
+  if (newScore > 0) gameState.updateTargetScore(newScore);
+});
+
+// Keyboard shortcuts: 1, 2, R
+document.addEventListener('keydown', (e) => {
+  if (e.key === '1') gameState.addPoint(0);
+  if (e.key === '2') gameState.addPoint(1);
+  if (e.key.toLowerCase() === 'r') gameState.resetGame();
+});
+
+// Initialize display
+gameState.updateDisplay();
