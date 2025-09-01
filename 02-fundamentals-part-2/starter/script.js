@@ -1,70 +1,62 @@
-// JavaScript Fundamentals Part 2 - Hour 2
+// JavaScript Fundamentals Part 2 - Hour 3
 
-const student1Grade = 85;
-const student2Grade = 92;
-const student3Grade = 78;
+// Coding Challenge #3 - User Profile System
+const user = {
+  firstName: "Sarah",
+  lastName: "Johnson",
+  birthYear: 1995,
+  location: "New York",
+  interests: ["photography", "travel", "coding"],
+  friends: [
+    { name: "Michael", status: "active" },
+    { name: "Emma", status: "inactive" },
+    { name: "David", status: "active" },
+  ],
+  isActive: true,
 
-const grade = [85, 92, 78, 96, 88];
-console.log(grade);
+  // Calculate age method
+  calcAge: function () {
+    const currentYear = new Date().getFullYear();
+    this.age = currentYear - this.birthYear;
+    return this.age;
+  },
 
-const friends = ["Michael", "Steven", "Peter"];
-console.log(friends);
+  // Add friend method
+  addFriend: function (name, status = "active") {
+    this.friends.push({ name, status });
+    return this.friends.length;
+  },
 
-////////////////////////////////////
-// Coding Challenge #2 - Student Grade Manager
+  // Get active friends count
+  getActiveFriends: function () {
+    return this.friends.filter(friend => friend.status === "active").length;
+  },
 
-const grades = [78, 85, 92, 67, 88, 95, 73, 82];
+  // Toggle active status
+  toggleStatus: function () {
+    this.isActive = !this.isActive;
+    return this.isActive;
+  },
 
-// Function to calculate average
-function calculateAverage(grades) {
-  let sum = 0;
-  for (let grade of grades) {
-    sum += grade;
-  }
-  return sum / grades.length;
-}
+  // Generate profile summary
+  getSummary: function () {
+    this.calcAge(); // Ensure age is calculated
+    const statusText = this.isActive ? "Active" : "Inactive";
+    return `
+Name: ${this.firstName} ${this.lastName}
+Age: ${this.age}
+Location: ${this.location}
+Status: ${statusText}
+Interests: ${this.interests.join(", ")}
+Total Friends: ${this.friends.length}
+Active Friends: ${this.getActiveFriends()}
+    `.trim();
+  },
+};
 
-// Function to find highest grade
-function findHighestGrade(grades) {
-  let highest = grades[0];
-  for (let grade of grades) {
-    if (grade > highest) {
-      highest = grade;
-    }
-  }
-  return highest;
-}
-
-// Function to find lowest grade
-function findLowestGrade(grades) {
-  let lowest = grades[0];
-  for (let grade of grades) {
-    if (grade < lowest) {
-      lowest = grade;
-    }
-  }
-  return lowest;
-}
-
-// Function to count passing students
-function countPassing(grades, passingGrade) {
-  let count = 0;
-  for (let grade of grades) {
-    if (grade >= passingGrade) {
-      count++;
-    }
-  }
-  return count;
-}
-
-// Generate complete report
-const average = calculateAverage(grades);
-const highest = findHighestGrade(grades);
-const lowest = findLowestGrade(grades);
-const passing = countPassing(grades, 70);
-
-console.log("=== GRADE REPORT ===");
-console.log(`Average: ${average.toFixed(2)}`);
-console.log(`Highest: ${highest}`);
-console.log(`Lowest: ${lowest}`);
-console.log(`Passing students: ${passing} out of ${grades.length}`);
+// Test your user profile system
+console.log(user.getSummary());
+user.addFriend("Alex", "active");
+user.toggleStatus();
+console.log(`\nAfter updates:`);
+console.log(user.getSummary());
