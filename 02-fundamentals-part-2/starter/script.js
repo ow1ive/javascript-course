@@ -1,100 +1,90 @@
-// JavaScript Fundamentals Part 2 - Hour 4
-//Final Project: Interactive Score Tracker
+// JavaScript Fundamentals Part 2 - Hour 1
 
-// Game state object
-const gameState = {
-  scores: [0, 0], // Player 1 and Player 2 scores
-  targetScore: 5,
-  gameActive: true,
+// Functions - Declarations and Expressions
+console.log("=== FUNCTIONS ===");
 
-  // Update score display
-  updateDisplay: function () {
-    document.getElementById('score-1').textContent = this.scores[0];
-    document.getElementById('score-2').textContent = this.scores[1];
-    document.querySelector('.target').textContent = this.targetScore;
-  },
+// Function declaration
+function logger() {
+  console.log("My name is Jonas");
+}
 
-  // Add point for a player
-  addPoint: function (playerIndex) {
-    if (!this.gameActive) return;
-    this.scores[playerIndex]++;
-    this.updateDisplay();
-    this.checkWinner();
-  },
+// Calling / running / invoking the function
+logger();
+logger();
+logger();
 
-  // Check if someone won
-  checkWinner: function () {
-    if (this.scores[0] >= this.targetScore) {
-      this.showWinner(0);
-    } else if (this.scores[1] >= this.targetScore) {
-      this.showWinner(1);
-    }
-  },
+function fruitProcessor(apples, oranges) {
+  console.log(apples, oranges);
+  const juice = `Juice with ${apples} apples and ${oranges} oranges.`;
+  return juice;
+}
 
-  // Show winner styling and message
-  showWinner: function (playerIndex) {
-    this.gameActive = false;
+const appleJuice = fruitProcessor(5, 0);
+console.log(appleJuice);
 
-    const players = document.querySelectorAll('.player');
-    players.forEach((player, index) => {
-      player.classList.remove('winner', 'loser');
-      if (index === playerIndex) player.classList.add('winner');
-      else player.classList.add('loser');
-    });
+const appleOrangeJuice = fruitProcessor(2, 4);
+console.log(appleOrangeJuice);
+const juice1 = `Juice with 5 apples and 0 oranges.`;
+const juice2 = `Juice with 2 apples and 4 oranges.`;
+const juice3 = `Juice with 3 apples and 2 oranges.`;
+console.log(juice1, juice2, juice3);
+////////////////////////////////////
+// Return Values and Scope
 
-    const winnerText = document.querySelector('.winner');
-    winnerText.classList.remove('hidden');
-    winnerText.querySelector('.winner-name').textContent = `Player ${playerIndex + 1}`;
-  },
+function calcAge(birthYear) {
+  return 2037 - birthYear;
+}
 
-  // Reset game
-  resetGame: function () {
-    this.scores = [0, 0];
-    this.gameActive = true;
+function yearsUntilRetirement(birthYear, firstName) {
+  const age = calcAge(birthYear); // Using one function inside another!
+  const retirement = 65 - age;
 
-    document.querySelectorAll('.player').forEach(player => {
-      player.classList.remove('winner', 'loser');
-    });
-
-    document.querySelector('.winner').classList.add('hidden');
-
-    this.updateDisplay();
-  },
-
-  // Update target score
-  updateTargetScore: function (newScore) {
-    this.targetScore = newScore;
-    this.updateDisplay();
+  if (retirement > 0) {
+    return `${firstName} retires in ${retirement} years`;
+  } else {
+    return `${firstName} has already retired!`;
   }
-};
+}
 
-// === Event Listeners ===
+console.log(yearsUntilRetirement(1991, "Jonas"));
+console.log(yearsUntilRetirement(1950, "Mike"));
+// Global scope
+const globalVar = "I am global";
 
-// Add points buttons
-document.querySelectorAll('.btn-add').forEach(button => {
-  button.addEventListener('click', function () {
-    const player = parseInt(this.dataset.player) - 1;
-    gameState.addPoint(player);
-  });
-});
+function testScope() {
+  // Function scope
+  const localVar = "I am local";
+  console.log(globalVar); // Can access global
+  console.log(localVar); // Can access local
+}
 
-// Reset button
-document.getElementById('btn-reset').addEventListener('click', () => {
-  gameState.resetGame();
-});
+testScope();
+// console.log(localVar); // Error! Can't access local from outside
+console.log(globalVar); // Works fine
 
-// Target score input
-document.getElementById('winning-score').addEventListener('change', function () {
-  const newScore = parseInt(this.value);
-  if (newScore > 0) gameState.updateTargetScore(newScore);
-});
+// Coding Challenge #1: Function Calculator
+// Function to calculate average of 3 scores
+function calcAverage(score1, score2, score3) {
+  return (score1 + score2 + score3) / 3;
+}
 
-// Keyboard shortcuts: 1, 2, R
-document.addEventListener('keydown', (e) => {
-  if (e.key === '1') gameState.addPoint(0);
-  if (e.key === '2') gameState.addPoint(1);
-  if (e.key.toLowerCase() === 'r') gameState.resetGame();
-});
+// Function to check winner
+function checkWinner(avgDolphins, avgKoalas) {
+  if (avgDolphins >= 2 * avgKoalas) {
+    return `Dolphins win (${avgDolphins} vs. ${avgKoalas})`;
+  } else if (avgKoalas >= 2 * avgDolphins) {
+    return `Koalas win (${avgKoalas} vs. ${avgDolphins})`;
+  } else {
+    return `No team wins (Dolphins: ${avgDolphins}, Koalas: ${avgKoalas})`;
+  }
+}
 
-// Initialize display
-gameState.updateDisplay();
+// Test Data 1
+let scoreDolphins = calcAverage(44, 23, 71);
+let scoreKoalas = calcAverage(65, 54, 49);
+console.log(checkWinner(scoreDolphins, scoreKoalas));
+
+// Test Data 2
+scoreDolphins = calcAverage(85, 54, 41);
+scoreKoalas = calcAverage(23, 34, 27);
+console.log(checkWinner(scoreDolphins, scoreKoalas));
