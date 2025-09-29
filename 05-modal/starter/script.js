@@ -1,45 +1,45 @@
-// Modal Development Hour 1 - Foundation & Class Toggling
+// Modal Development Hour 2 - Keyboard Events & Advanced UX
 'use strict';
 
-console.log('=== MODAL DEVELOPMENT: FOUNDATION & CLASS TOGGLING ===');
-
-// Section 1: DOM Selection
-
-// Select the modal element
+console.log('=== MODAL DEVELOPMENT: KEYBOARD EVENTS & ADVANCED UX ===');
+// Selections
 const modalEl = document.querySelector('.modal');
-
-// Select the overlay element
 const overlayEl = document.querySelector('.overlay');
-
-// Select the close button
 const btnCloseModalEl = document.querySelector('.close-modal');
-
-// Select ALL the open buttons using querySelectorAll
 const btnsOpenModalEl = document.querySelectorAll('.show-modal');
 
-// Verify our selections worked correctly
-console.log('Open buttons:', btnsOpenModalEl.length);
+// Focus management
+let lastFocusedButton = null;
 
-// Section 2: Helper Functions
-
-// Open modal
+// Helper functions
 const openModal = function () {
   modalEl.classList.remove('hidden');
   overlayEl.classList.remove('hidden');
+  modalEl.focus();
+  lastFocusedButton = document.activeElement;
 };
 
-// Close modal
 const closeModal = function () {
   modalEl.classList.add('hidden');
   overlayEl.classList.add('hidden');
+  if (lastFocusedButton) {
+    lastFocusedButton.focus();
+  }
 };
 
-// Section 3: Event Listeners
-
+// Event listeners
 btnsOpenModalEl.forEach(btn => btn.addEventListener('click', openModal));
-
 btnCloseModalEl.addEventListener('click', closeModal);
-
 overlayEl.addEventListener('click', closeModal);
 
-console.log('Modal project ready!');
+// Keyboard events
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && !modalEl.classList.contains('hidden')) {
+    closeModal();
+  }
+});
+
+// Accessibility attributes
+modalEl.setAttribute('role', 'dialog');
+modalEl.setAttribute('aria-modal', 'true');
+btnCloseModalEl.setAttribute('aria-label', 'Close modal');
