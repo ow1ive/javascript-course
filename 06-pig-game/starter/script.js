@@ -67,7 +67,6 @@
 
 'use strict';
 
-// Section 1: Game State Setup
 let scores, currentScore, activePlayer, playing;
 
 // Element selections
@@ -81,6 +80,7 @@ const current1El = document.getElementById('current--1');
 const diceEl = document.querySelector('.dice');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
+const btnNew = document.querySelector('.btn--new');
 
 // Initialization
 const init = function () {
@@ -95,11 +95,16 @@ const init = function () {
   current1El.textContent = 0;
 
   diceEl.classList.add('hidden');
+
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
   player0El.classList.add('player--active');
   player1El.classList.remove('player--active');
 };
-
 init();
+
+// New Game button
+btnNew.addEventListener('click', init);
 
 // switchPlayer Helper
 const switchPlayer = function () {
@@ -110,7 +115,7 @@ const switchPlayer = function () {
   player1El.classList.toggle('player--active');
 };
 
-//Roll Dice Logic
+// Roll Dice Logic
 btnRoll.addEventListener('click', function () {
   if (playing) {
     const dice = Math.trunc(Math.random() * 6) + 1;
@@ -126,19 +131,26 @@ btnRoll.addEventListener('click', function () {
     }
   }
 });
-// Section 5: Hold Button Logic
+
+// Hold Button Logic
 btnHold.addEventListener('click', function () {
   if (playing && currentScore > 0) {
     scores[activePlayer] += currentScore;
     document.getElementById(`score--${activePlayer}`).textContent =
       scores[activePlayer];
 
-    // Switch player
-    switchPlayer();
+    if (scores[activePlayer] >= 100) {
+      playing = false;
+      diceEl.classList.add('hidden');
+
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.add('player--winner');
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.remove('player--active');
+    } else {
+      switchPlayer();
+    }
   }
 });
-
-console.log('Scores:', scores);
-console.log('Current Score:', currentScore);
-console.log('Active Player:', activePlayer);
-console.log('Playing:', playing);
